@@ -1,0 +1,36 @@
+name: Test cmake setup with default version (empty input)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: setup-cmake
+        uses: .
+        # cmake-version defaults to '' which should install latest
+      - name: Assert cmake is available
+        run: |
+          echo "cmake path: $(which cmake)"
+          if ! which cmake; then
+            echo "FAIL: cmake not found on PATH"
+            exit 1
+          fi
+          echo "PASS: cmake is on PATH"
+      - name: Assert cmake runs successfully
+        run: |
+          cmake --version
+          if [ $? -ne 0 ]; then
+            echo "FAIL: cmake --version returned non-zero exit code"
+            exit 1
+          fi
+          echo "PASS: cmake --version succeeded"
+      - name: Assert cmake version output is non-empty
+        run: |
+          ACTUAL_VERSION="$(cmake --version | head -1 | awk '{print $3}')"
+          echo "actual version: $ACTUAL_VERSION"
+          if [ -z "$ACTUAL_VERSION" ]; then
+            echo "FAIL: cmake version output is empty"
+            exit 1
+          fi
+          echo "PASS: cmake version is $ACTUAL_VERSION"

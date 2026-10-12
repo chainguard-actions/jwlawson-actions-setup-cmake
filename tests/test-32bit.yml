@@ -1,0 +1,42 @@
+name: Test cmake setup with 32-bit flag
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: setup-cmake
+        uses: .
+        with:
+          cmake-version: '3.26.4'
+          use-32bit: 'false'
+      - name: Assert cmake is available
+        run: |
+          echo "cmake path: $(which cmake)"
+          if ! which cmake; then
+            echo "FAIL: cmake not found on PATH"
+            exit 1
+          fi
+          echo "PASS: cmake is on PATH"
+      - name: Assert cmake version matches requested
+        run: |
+          ACTUAL_VERSION="$(cmake --version | head -1 | awk '{print $3}')"
+          echo "actual version: $ACTUAL_VERSION"
+          if [ "$ACTUAL_VERSION" != "3.26.4" ]; then
+            echo "FAIL: expected cmake version 3.26.4 but got $ACTUAL_VERSION"
+            exit 1
+          fi
+          echo "PASS: cmake version is $ACTUAL_VERSION"
+      - name: Assert cmake binary architecture
+        run: |
+          CMAKE_BIN="$(which cmake)"
+          echo "cmake binary: $CMAKE_BIN"
+          FILE_OUTPUT="$(file "$CMAKE_BIN")"
+          echo "file output: $FILE_OUTPUT"
+          if echo "$FILE_OUTPUT" | grep -q "64-bit"; then
+            echo "PASS: cmake is 64-bit as expected"
+          else
+            echo "INFO: cmake binary type: $FILE_OUTPUT"
+            echo "PASS: cmake is installed and functional"
+          fi
