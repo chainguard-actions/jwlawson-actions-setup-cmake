@@ -6,9 +6,9 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 ## Versions
 
-| Version | Tag | Upstream commit |
-|---------|-----|-----------------|
-| v2.2.0 | [`v2.2.0`](https://github.com/chainguard-actions/jwlawson-actions-setup-cmake/tree/v2.2.0) | [`0d6a7d6`](https://github.com/jwlawson/actions-setup-cmake/commit/0d6a7d60b009d01c9e7523be22153ff8f19460d3) |
+| Version | Tag | Upstream commit | Hardening report |
+|---------|-----|-----------------|------------------|
+| v2.2.0 | [`v2.2.0`](https://github.com/chainguard-actions/jwlawson-actions-setup-cmake/tree/v2.2.0) | [`0d6a7d6`](https://github.com/jwlawson/actions-setup-cmake/commit/0d6a7d60b009d01c9e7523be22153ff8f19460d3) | [`HARDENING.md`](https://github.com/chainguard-actions/jwlawson-actions-setup-cmake/blob/v2.2.0/HARDENING.md) |
 
 ## Privacy
 
